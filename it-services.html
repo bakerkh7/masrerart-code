@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">حلول تكنولوجيا المعلومات الشاملة - MasterArt & Code</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d1117; color: #e6edf3; line-height: 1.6; }
+
+        /* الشريط العلوي */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 6%;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #38bdf8; direction: ltr; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: #c9d1d9; text-decoration: none; font-size: 0.95rem; transition: 0.2s; }
+        .nav-links a:hover { color: #38bdf8; }
+        
+        /* زر تبديل اللغات */
+        .lang-select {
+            background-color: #21262d;
+            color: #38bdf8;
+            border: 1px solid #38bdf8;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+        }
+        .lang-select option { background-color: #161b22; color: #e6edf3; }
+
+        .staff-btn {
+            background-color: #21262d;
+            color: #38bdf8 !important;
+            border: 1px solid #38bdf8;
+            padding: 7px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .staff-btn:hover { background-color: #38bdf8; color: #0d1117 !important; }
+
+        /* القسم الترحيبي (Hero) */
+        .hero {
+            text-align: center;
+            padding: 70px 6% 50px;
+            background: radial-gradient(circle at top, #161b22 0%, #0d1117 70%);
+            border-bottom: 1px solid #21262d;
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
+        .hero h1 span { color: #38bdf8; }
+        .hero p { color: #8b949e; max-width: 750px; margin: 0 auto 30px; font-size: 1.1rem; }
+        .hero-badges { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .h-badge { background: #161b22; border: 1px solid #30363d; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; color: #3fb950; }
+
+        /* قسم خدمات الـ IT بالصور */
+        .container { padding: 50px 6%; }
+        .section-heading { text-align: center; margin-bottom: 40px; }
+        .section-heading h2 { font-size: 2rem; color: #e6edf3; margin-bottom: 10px; }
+        .section-heading p { color: #8b949e; }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .service-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover { transform: translateY(-6px); border-color: #38bdf8; }
+        .service-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #30363d;
+        }
+        .service-body { padding: 22px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .service-body h3 { font-size: 1.25rem; color: #38bdf8; margin-bottom: 10px; }
+        .service-body p { color: #8b949e; font-size: 0.95rem; margin-bottom: 20px; }
+        .order-btn {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .order-btn:hover { opacity: 0.9; }
+
+        /* نموذج طلب خدمة تكنولوجيا المعلومات */
+        .order-section {
+            margin-top: 60px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .order-section h2 { text-align: center; color: #38bdf8; margin-bottom: 10px; }
+        .order-section p { text-align: center; color: #8b949e; margin-bottom: 25px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; color: #c9d1d9; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            background-color: #0d1117;
+            color: #e6edf3;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #38bdf8; }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 60px;
+            color: #8b949e;
+            font-size: 0.9rem;
+            border-top: 1px solid #21262d;
+            background-color: #161b22;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الشريط العلوي -->
+    <header>
+        <div class="logo">🎨 MasterArt & Code</div>
+        <nav class="nav-links">
+            <a href="clients.html" id="navHome">الرئيسية</a>
+            <a href="#it-services" id="navServices">خدمات الـ IT</a>
+            <a href="#request" id="navRequest">اطلب نظامك التقني</a>
+            
+            <!-- قائمة اختيار اللغات الثلاثة -->
+            <select id="langSwitch" class="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ar">العربية 🇸🇦</option>
+                <option value="tr">Türkçe 🇹🇷</option>
+                <option value="en">English 🇺🇸</option>
+            </select>
+
+            <a href="dashboard.html" class="staff-btn" id="navStaff">بوابة الموظفين 🔐</a>
+        </nav>
+    </header>
+
+    <!-- القسم الترحيبي -->
+    <section class="hero">
+        <h1 id="heroTitle">هندسة وبنية <span>تكنولوجيا المعلومات (IT Systems)</span></h1>
+        <p id="heroDesc">
+            نقدم في شركة <strong>MasterArt & Code</strong> حلول بنية تحتية متكاملة، تشمل الحوسبة السحابية، أمن المعلومات، شبكات المؤسسات، والذكاء الاصطناعي بمعايير عالمية تحت إدارة <strong>بكر فواز خضورة</strong>.
+        </p>
+        <div class="hero-badges">
+            <span class="h-badge" id="badge1">🛡️ حماية متقدمة وتشفير</span>
+            <span class="h-badge" id="badge2">☁️ سحابيات متطورة</span>
+            <span class="h-badge" id="badge3">🌐 شبكات VLANs و SSH</span>
+        </div>
+    </section>
+
+    <!-- عرض تخصصات الـ IT بالصور -->
+    <div class="container" id="it-services">
+        <div class="section-heading">
+            <h2 id="secTitle">مستودع تخصصات وخبرات الـ IT</h2>
+            <p id="secDesc">اختر المجال التقني المناسب لمؤسستك واطلب تنفيذه فوراً</p>
+        </div>
+
+        <div class="services-grid">
+            
+            <!-- 1. الذكاء الاصطناعي -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80" alt="AI" class="service-img">
+                <div class="service-body">
+                    <div>
+                        <h3 id="card1Title">🤖 الذكاء الاصطناعي وعلم البيانات</h3>
+                        <p id="card1Desc">بناء وتدريب نماذج Machine Learning، معالجة اللغات الطبيعية (NLP)، وأتمتة العمليات التحليلية المعقدة.</p>
+                    </div>
+                    <button class="order-btn" onclick="selectService('🤖 قسم الذكاء الاصطناعي (AI)')" id="btn1">اطلب هذه الخدمة</button>
+                </div>
+            </div>
+
+            <!-- 2. الحوسبة السحابية -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Cloud" class="service-img">
+                <div class="service-body">
+                    <div>
+                        <h3 id="card2Title">☁️ الحوسبة السحابية (Cloud Infrastructure)</h3>
+                        <p id="card2Desc">إدارة الخوادم السحابية، نشر الأنظمة وتوزيع الموارد على منصات AWS و Azure وتكوين البيئات الافتراضية المرنة.</p>
+                    </div>
+                    <button class="order-btn" onclick="selectService('🌐 قسم برمجة الويب')" id="btn2">اطلب هذه الخدمة</button>
+                </div>
+            </div>
+
+            <!-- 3. أمن المعلومات -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" alt="Security" class="service-img">
+                <div class="service-body">
+                    <div>
+                        <h3 id="card3Title">🛡️ أمن المعلومات واختبار الاختراق</h3>
+                        <p id="card3Desc">فحص الثغرات الأمنية للبرمجيات والشبكات، تقييم المخاطر، وتطبيق سياسات الحماية المتقدمة وتشفير البيانات.</p>
+                    </div>
+                    <button class="order-btn" onclick="selectService('🔒 قسم أمن المعلومات')" id="btn3">اطلب هذه الخدمة</button>
+                </div>
+            </div>
+
+            <!-- 4. هندسة الشبكات -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Network" class="service-img">
+                <div class="service-body">
+                    <div>
+                        <h3 id="card4Title">🌐 هندسة الشبكات وعزل VLANs</h3>
+                        <p id="card4Desc">تصميم وتوثيق طوبولوجيا الشبكات، إعداد الراوترز والسويتشات، وعزل النطاقات (VLANs) وتأمين بروتوكولات SSH.</p>
+                    </div>
+                    <button class="order-btn" onclick="selectService('🔒 قسم أمن المعلومات')" id="btn4">اطلب هذه الخدمة</button>
+                </div>
+            </div>
+
+            <!-- 5. قواعد البيانات -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=80" alt="Databases" class="service-img">
+                <div class="service-body">
+                    <div>
+                        <h3 id="card5Title">🗄️ إدارة وتصميم قواعد البيانات</h3>
+                        <p id="card5Desc">هندسة وتصميم قواعد البيانات العلائقية (SQL / NoSQL)، كتابة الاستعلامات المتقدمة، وضمان أمان تدفق البيانات.</p>
+                    </div>
+                    <button class="order-btn" onclick="selectService('💰 الإدارة المالية')" id="btn5">اطلب هذه الخدمة</button>
+                </div>
+            </div>
+
+            <!-- 6. إنترنت الأشياء IoT -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="IoT" class="service-img">
+                <div class="service-body">
+                    <div>
+                        <h3 id="card6Title">🔌 إنترنت الأشياء والأنظمة المدمجة (IoT)</h3>
+                        <p id="card6Desc">ربط الحساسات والأجهزة المادية بالإنترنت، تتبع البيانات الحية، وبناء منظومات المراقبة والتحكم الذكي عن بعد.</p>
+                    </div>
+                    <button class="order-btn" onclick="selectService('🚚 قسم النقل واللوجستيات')" id="btn6">اطلب هذه الخدمة</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- نموذج طلب خدمة تكنولوجيا المعلومات -->
+        <div class="order-section" id="request">
+            <h2 id="formTitle">طلب نظام أو استشارة تقنية (IT)</h2>
+            <p id="formDesc">أدخل متطلبات البنية التحتية أو النظام التقني وسيقوم مهندسونا بمراجعته وتوجيهه للقسم المعني فوراً</p>
+            <form id="clientOrderForm">
+                <div class="form-group">
+                    <label for="clientName" id="labelName">الاسم الكامل أو اسم المؤسسة</label>
+                    <input type="text" id="clientName" placeholder="مثال: مؤسسة التقنية الذكية" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientContact" id="labelContact">البريد الإلكتروني أو وسيلة الاتصال</label>
+                    <input type="text" id="clientContact" placeholder="it@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="serviceSelect" id="labelService">مجال الـ IT المطلوب</label>
+                    <select id="serviceSelect" required>
+                        <option value="🤖 قسم الذكاء الاصطناعي (AI)">🤖 الذكاء الاصطناعي وعلم البيانات</option>
+                        <option value="🌐 قسم برمجة الويب">☁️ الحوسبة السحابية والويب</option>
+                        <option value="🔒 قسم أمن المعلومات">🛡️ أمن المعلومات واختبار الاختراق</option>
+                        <option value="🔒 قسم أمن المعلومات">🌐 هندسة الشبكات وعزل VLANs</option>
+                        <option value="💰 الإدارة المالية">🗄️ قواعد البيانات وإدارة التدفقات</option>
+                        <option value="🚚 قسم النقل واللوجستيات">🔌 إنترنت الأشياء والأنظمة المدمجة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="orderDetails" id="labelDetails">تفاصيل ومتطلبات النظام التقني</label>
+                    <textarea id="orderDetails" rows="4" placeholder="اشرح المتطلبات الهندسية، أهداف الشبكة، أو خصائص النظام البرمجي المطلوب..." required></textarea>
+                </div>
+                <button type="submit" class="order-btn" style="padding: 14px; font-size: 1.05rem;" id="submitBtn">إرسال الطلب التقني 🚀</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="footerText">
+        جميع الحقوق محفوظة © 2026 - MasterArt & Code | أنقرة (تركيا) • هيوستن (أمريكا) | contact@masterartcode.com
+    </footer>
+
+    <!-- قاموس النصوص للغات الثلاثة -->
+    <script>
+        const translations = {
+            ar: {
+                title: "حلول تكنولوجيا المعلومات الشاملة - MasterArt & Code",
+                navHome: "الرئيسية",
+                navServices: "خدمات الـ IT",
+                navRequest: "اطلب نظامك التقني",
+                navStaff: "بوابة الموظفين 🔐",
+                heroTitle: 'هندسة وبنية <span>تكنولوجيا المعلومات (IT Systems)</span>',
+                heroDesc: 'نقدم في شركة <strong>MasterArt & Code</strong> حلول بنية تحتية متكاملة، تشمل الحوسبة السحابية، أمن المعلومات، شبكات المؤسسات، والذكاء الاصطناعي بمعايير عالمية تحت إدارة <strong>بكر فواز خضورة</strong>.',
+                badge1: '🛡️ حماية متقدمة وتشفير',
+                badge2: '☁️ سحابيات متطورة',
+                badge3: '🌐 شبكات VLANs و SSH',
+                secTitle: 'مستودع تخصصات وخبرات الـ IT',
+                secDesc: 'اختر المجال التقني المناسب لمؤسستك واطلب تنفيذه فوراً',
+                
+                card1Title: '🤖 الذكاء الاصطناعي وعلم البيانات',
+                card1Desc: 'بناء وتدريب نماذج Machine Learning، معالجة اللغات الطبيعية (NLP)، وأتمتة العمليات التحليلية المعقدة.',
+                card2Title: '☁️ الحوسبة السحابية (Cloud Infrastructure)',
+                card2Desc: 'إدارة الخوادم السحابية، نشر الأنظمة وتوزيع الموارد على منصات AWS و Azure وتكوين البيئات الافتراضية المرنة.',
+                card3Title: '🛡️ أمن المعلومات واختبار الاختراق',
+                card3Desc: 'فحص الثغرات الأمنية للبرمجيات والشبكات، تقييم المخاطر، وتطبيق سياسات الحماية المتقدمة وتشفير البيانات.',
+                card4Title: '🌐 هندسة الشبكات وعزل VLANs',
+                card4Desc: 'تصميم وتوثيق طوبولوجيا الشبكات، إعداد الراوترز والسويتشات، وعزل النطاقات (VLANs) وتأمين بروتوكولات SSH.',
+                card5Title: '🗄️ إدارة وتصميم قواعد البيانات',
+                card5Desc: 'هندسة وتصميم قواعد البيانات العلائقية (SQL / NoSQL)، كتابة الاستعلامات المتقدمة، وضمان أمان تدفق البيانات.',
+                card6Title: '🔌 إنترنت الأشياء والأنظمة المدمجة (IoT)',
+                card6Desc: 'ربط الحساسات والأجهزة المادية بالإنترنت، تتبع البيانات الحية، وبناء منظومات المراقبة والتحكم الذكي عن بعد.',
+
+                btn1: 'اطلب هذه الخدمة', btn2: 'اطلب هذه الخدمة', btn3: 'اطلب هذه الخدمة',
+                btn4: 'اطلب هذه الخدمة', btn5: 'اطلب هذه الخدمة', btn6: 'اطلب هذه الخدمة',
+
+                formTitle: 'طلب نظام أو استشارة تقنية (IT)',
+                formDesc: 'أدخل متطلبات البنية التحتية أو النظام التقني وسيقوم مهندسونا بمراجعته وتوجيهه للقسم المعني فوراً',
+                labelName: 'الاسم الكامل أو اسم المؤسسة',
+                labelContact: 'البريد الإلكتروني أو وسيلة الاتصال',
+                labelService: 'مجال الـ IT المطلوب',
+                labelDetails: 'تفاصيل ومتطلبات النظام التقني',
+                submitBtn: 'إرسال الطلب التقني 🚀',
+                footerText: 'جميع الحقوق محفوظة © 2026 - MasterArt & Code | أنقرة (تركيا) • هيوستن (أمريكا) | contact@masterartcode.com'
+            },
+            tr: {
+                title: "Kapsamlı Bilgi Teknolojileri Çözümleri - MasterArt & Code",
+                navHome: "Ana Sayfa",
+                navServices: "BT Hizmetleri",
+                navRequest: "Sistem Talebi",
+                navStaff: "Personel Girişi 🔐",
+                heroTitle: 'BT Sistemleri <span>Mühendisliği ve Altyapısı</span>',
+                heroDesc: '<strong>MasterArt & Code</strong> olarak; bulut bilişim, siber güvenlik, kurumsal ağlar ve yapay zeka alanlarında uluslararası standartlarda uçtan uca altyapı çözümleri sunuyoruz. Yönetici: <strong>Bekir Fawaz Khadoura</strong>.',
+                badge1: '🛡️ Gelişmiş Güvenlik ve Şifreleme',
+                badge2: '☁️ Gelişmiş Bulut Sistemleri',
+                badge3: '🌐 VLAN ve SSH Ağları',
+                secTitle: 'BT Uzmanlık ve Alan Deposu',
+                secDesc: 'Kurumunuz için uygun teknik alanı seçin ve hemen talep oluşturun',
+                
+                card1Title: '🤖 Yapay Zeka ve Veri Bilimi',
+                card1Desc: 'Machine Learning modelleri geliştirme, Doğal Dil İşleme (NLP) ve karmaşık analitik süreçlerin otomasyonu.',
+                card2Title: '☁️ Bulut Bilişim (Cloud Infrastructure)',
+                card2Desc: 'Bulut sunucu yönetimi, AWS ve Azure platformlarında sistem dağıtımı ve esnek sanal ortam yapılandırması.',
+                card3Title: '🛡️ Siber Güvenlik ve Penetrasyon Testi',
+                card3Desc: 'Yazılım ve ağ güvenlik açığı taraması, risk değerlendirmesi, gelişmiş koruma politikaları ve veri şifreleme.',
+                card4Title: '🌐 Ağ Mühendisliği ve VLAN İzolasyonu',
+                card4Desc: 'Ağ topolojisi tasarımı, router/switch yapılandırması, VLAN segmentasyonu ve SSH protokol güvenliği.',
+                card5Title: '🗄️ Veritabanı Yönetimi ve Tasarımı',
+                card5Desc: 'İlişkisel veritabanı (SQL / NoSQL) mimarisi, gelişmiş sorgular ve veri akış güvenliğinin sağlanması.',
+                card6Title: '🔌 Nesnelerin İnterneti (IoT) Sistemleri',
+                card6Desc: 'Sensörleri ve fiziksel cihazları internete bağlama, canlı veri takibi ve akıllı uzaktan izleme sistemleri.',
+
+                btn1: 'Bu Hizmeti Talep Et', btn2: 'Bu Hizmeti Talep Et', btn3: 'Bu Hizmeti Talep Et',
+                btn4: 'Bu Hizmeti Talep Et', btn5: 'Bu Hizmeti Talep Et', btn6: 'Bu Hizmeti Talep Et',
+
+                formTitle: 'BT Sistem Talebi veya Danışmanlığı',
+                formDesc: 'Altyapı gereksinimlerinizi girin, mühendislerimiz inceleyip ilgili departmana yönlendirsin',
+                labelName: 'Ad Soyad veya Kurum Adı',
+                labelContact: 'E-posta veya İletişim Bilgisi',
+                labelService: 'İstenen BT Alanı',
+                labelDetails: 'Teknik Sistem Detayları ve Gereksinimler',
+                submitBtn: 'Teknik Talebi Gönder 🚀',
+                footerText: 'Tüm Hakları Saklıdır © 2026 - MasterArt & Code | Ankara (Türkiye) • Houston (ABD)'
+            },
+            en: {
+                title: "Comprehensive IT Solutions - MasterArt & Code",
+                navHome: "Home",
+                navServices: "IT Services",
+                navRequest: "Request IT System",
+                navStaff: "Staff Portal 🔐",
+                heroTitle: 'Information Technology <span>Engineering & Infrastructure</span>',
+                heroDesc: 'At <strong>MasterArt & Code</strong>, we provide end-to-end infrastructure solutions including cloud computing, cybersecurity, enterprise networking, and artificial intelligence under the leadership of <strong>Baker Fawaz Khadoura</strong>.',
+                badge1: '🛡️ Advanced Security & Encryption',
+                badge2: '☁️ Advanced Cloud Computing',
+                badge3: '🌐 VLANs & SSH Networks',
+                secTitle: 'IT Specialties & Expertise Repository',
+                secDesc: 'Choose the technical field that suits your organization and request implementation instantly',
+                
+                card1Title: '🤖 Artificial Intelligence & Data Science',
+                card1Desc: 'Developing Machine Learning models, Natural Language Processing (NLP), and automating complex analytical processes.',
+                card2Title: '☁️ Cloud Infrastructure',
+                card2Desc: 'Cloud server management, system deployment on AWS & Azure platforms, and flexible virtual environment setup.',
+                card3Title: '🛡️ Cybersecurity & Pentesting',
+                card3Desc: 'Software and network vulnerability scanning, risk assessment, advanced protection policies, and data encryption.',
+                card4Title: '🌐 Network Engineering & VLAN Isolation',
+                card4Desc: 'Network topology design, router/switch configuration, VLAN segmentation, and SSH protocol security.',
+                card5Title: '🗄️ Database Management & Design',
+                card5Desc: 'Relational database architecture (SQL / NoSQL), advanced queries, and ensuring secure data flow.',
+                card6Title: '🔌 Internet of Things (IoT) Systems',
+                card6Desc: 'Connecting physical sensors and devices to the internet, live data tracking, and smart remote monitoring systems.',
+
+                btn1: 'Request This Service', btn2: 'Request This Service', btn3: 'Request This Service',
+                btn4: 'Request This Service', btn5: 'Request This Service', btn6: 'Request This Service',
+
+                formTitle: 'IT System Request or Consultation',
+                formDesc: 'Enter your infrastructure requirements and our engineers will review and route them instantly',
+                labelName: 'Full Name or Organization',
+                labelContact: 'Email or Contact Info',
+                labelService: 'Required IT Field',
+                labelDetails: 'Technical System Details & Requirements',
+                submitBtn: 'Submit Technical Request 🚀',
+                footerText: 'All Rights Reserved © 2026 - MasterArt & Code | Ankara (Turkey) • Houston (USA)'
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang];
+            document.getElementById("htmlRoot").setAttribute("lang", lang);
+            document.getElementById("htmlRoot").setAttribute("dir", lang === 'en' ? 'ltr' : 'rtl');
+
+            document.getElementById("pageTitle").innerText = t.title;
+            document.getElementById("navHome").innerText = t.navHome;
+            document.getElementById("navServices").innerText = t.navServices;
+            document.getElementById("navRequest").innerText = t.navRequest;
+            document.getElementById("navStaff").innerText = t.navStaff;
+
+            document.getElementById("heroTitle").innerHTML = t.heroTitle;
+            document.getElementById("heroDesc").innerHTML = t.heroDesc;
+            document.getElementById("badge1").innerText = t.badge1;
+            document.getElementById("badge2").innerText = t.badge2;
+            document.getElementById("badge3").innerText = t.badge3;
+
+            document.getElementById("secTitle").innerText = t.secTitle;
+            document.getElementById("secDesc").innerText = t.secDesc;
+
+            document.getElementById("card1Title").innerText = t.card1Title;
+            document.getElementById("card1Desc").innerText = t.card1Desc;
+            document.getElementById("card2Title").innerText = t.card2Title;
+            document.getElementById("card2Desc").innerText = t.card2Desc;
+            document.getElementById("card3Title").innerText = t.card3Title;
+            document.getElementById("card3Desc").innerText = t.card3Desc;
+            document.getElementById("card4Title").innerText = t.card4Title;
+            document.getElementById("card4Desc").innerText = t.card4Desc;
+            document.getElementById("card5Title").innerText = t.card5Title;
+            document.getElementById("card5Desc").innerText = t.card5Desc;
+            document.getElementById("card6Title").innerText = t.card6Title;
+            document.getElementById("card6Desc").innerText = t.card6Desc;
+
+            document.getElementById("btn1").innerText = t.btn1;
+            document.getElementById("btn2").innerText = t.btn2;
+            document.getElementById("btn3").innerText = t.btn3;
+            document.getElementById("btn4").innerText = t.btn4;
+            document.getElementById("btn5").innerText = t.btn5;
+            document.getElementById("btn6").innerText = t.btn6;
+
+            document.getElementById("formTitle").innerText = t.formTitle;
+            document.getElementById("formDesc").innerText = t.formDesc;
+            document.getElementById("labelName").innerText = t.labelName;
+            document.getElementById("labelContact").innerText = t.labelContact;
+            document.getElementById("labelService").innerText = t.labelService;
+            document.getElementById("labelDetails").innerText = t.labelDetails;
+            document.getElementById("submitBtn").innerText = t.submitBtn;
+            document.getElementById("footerText").innerText = t.footerText;
+        }
+
+        function selectService(serviceName) {
+            const selectBox = document.getElementById("serviceSelect");
+            selectBox.value = serviceName;
+            document.getElementById("request").scrollIntoView({ behavior: "smooth" });
+        }
+
+        document.getElementById("clientOrderForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const name = document.getElementById("clientName").value.trim();
+            const contact = document.getElementById("clientContact").value.trim();
+            const service = document.getElementById("serviceSelect").value;
+            const details = document.getElementById("orderDetails").value.trim();
+
+            const existingOrders = JSON.parse(localStorage.getItem("masterArtOrders") || "[]");
+            const newOrder = {
+                id: "#IT-" + Math.floor(1000 + Math.random() * 9000),
+                client: name + ` (${contact})`,
+                details: details,
+                dept: service,
+                status: "جديد وقيد المراجعة التقنية 🔄"
+            };
+            existingOrders.push(newOrder);
+            localStorage.setItem("masterArtOrders", JSON.stringify(existingOrders));
+
+            alert("✅ تم إرسال الطلب التقني بنجاح!\nSuccessfully submitted!\nBaşarıyla gönderildi!");
+            this.reset();
+        });
+    </script>
+
+</body>
+</html>

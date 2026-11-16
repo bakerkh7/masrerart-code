@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم المركزية - MasterArt & Code</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d1117; color: #e6edf3; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 6%;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+        }
+        .logo { font-size: 1.4rem; font-weight: bold; color: #38bdf8; direction: ltr; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .badge { background-color: rgba(46, 160, 67, 0.2); color: #3fb950; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid #2ea043; }
+        .logout-btn {
+            background-color: transparent;
+            color: #f85149;
+            border: 1px solid #f85149;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover { background-color: #f85149; color: #fff; }
+        .clients-link {
+            background-color: #21262d;
+            color: #38bdf8;
+            border: 1px solid #38bdf8;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .clients-link:hover { background-color: #38bdf8; color: #0d1117; }
+
+        .container { padding: 30px 6%; flex: 1; }
+        
+        .welcome-banner { margin-bottom: 25px; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; }
+        .welcome-banner h1 { font-size: 1.8rem; margin-bottom: 8px; color: #38bdf8; }
+        .welcome-banner p { color: #8b949e; line-height: 1.6; font-size: 0.95rem; }
+
+        .tabs-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background-color: #38bdf8;
+            color: #0d1117;
+            border-color: #38bdf8;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        h2.section-title { margin-bottom: 20px; font-size: 1.3rem; border-right: 4px solid #38bdf8; padding-right: 12px; color: #e6edf3; }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover { transform: translateY(-3px); border-color: #38bdf8; }
+        .card h3 { font-size: 1.1rem; margin-bottom: 10px; color: #58a6ff; }
+        .card p { color: #8b949e; font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; }
+        
+        .action-btn {
+            background-color: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .action-btn:hover { background-color: #38bdf8; color: #0d1117; }
+
+        .ai-card {
+            border-color: #818cf8 !important;
+            background: linear-gradient(145deg, #161b22 0%, #1a1f35 100%);
+        }
+        .ai-card h3 { color: #a5b4fc !important; }
+
+        .transport-card {
+            border-color: #3fb950 !important;
+            background: linear-gradient(145deg, #161b22 0%, #112217 100%);
+        }
+        .transport-card h3 { color: #56d364 !important; }
+
+        .info-panel {
+            margin-top: 30px;
+            background-color: #161b22;
+            border: 1px solid #38bdf8;
+            border-radius: 12px;
+            padding: 25px;
+            color: #e6edf3;
+            display: none;
+            line-height: 1.8;
+            font-size: 1rem;
+            box-shadow: 0 5px 20px rgba(56, 189, 248, 0.1);
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #161b22;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+        }
+        .orders-table th, .orders-table td {
+            padding: 14px 18px;
+            text-align: right;
+            border-bottom: 1px solid #30363d;
+            font-size: 0.95rem;
+        }
+        .orders-table th { background-color: #21262d; color: #38bdf8; }
+        .status-tag { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; }
+        .status-pending { background-color: rgba(210, 153, 34, 0.2); color: #d29922; border: 1px solid #d29922; }
+        .status-done { background-color: rgba(46, 160, 67, 0.2); color: #3fb950; border: 1px solid #2ea043; }
+        .status-new { background-color: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #38bdf8; }
+        
+        .complete-btn {
+            background-color: #238636;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+        .complete-btn:hover { background-color: #2ea043; }
+
+        .contact-box {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            line-height: 1.8;
+            direction: rtl;
+            text-align: right;
+        }
+        .contact-box p { margin-bottom: 10px; color: #8b949e; }
+        .contact-box strong { color: #38bdf8; }
+
+        footer { text-align: center; padding: 20px; color: #8b949e; font-size: 0.85rem; border-top: 1px solid #21262d; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">🎨 MasterArt & Code</div>
+        <div class="user-info">
+            <a href="clients.html" class="clients-link">🌐 بوابة العملاء</a>
+            <span class="badge">● المؤسس: بكر  خضورة</span>
+            <button class="logout-btn" onclick="window.location.href='b.html'">تسجيل الخروج</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="welcome-banner">
+            <h1>لوحة القيادة والتحكم الإستراتيجي</h1>
+            <p>
+                <strong>تاريخ التأسيس:</strong> 7 أبريل 2021 (بدأت كمشروع ناشئ وتطورت لتربط بين البرمجة المتقدمة والفنون الرقمية). | 
+                <strong>المقر الرئيسي:</strong> أنقرة، تركيا | 
+                <strong>الفرع الدولي:</strong> هيوستن، أمريكا.<br>
+                تحت إدارة المؤسس <strong>بكر  خضورة</strong>، تدير المنظومة الأقسام التقنية، اللوجستية، الذكاء الاصطناعي والإبداعية عبر شبكة سحابية مؤمنة.
+            </p>
+        </div>
+
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab(event, 'departments')">🏢 أقسام الشركة (11 قسم)</button>
+            <button class="tab-btn" onclick="switchTab(event, 'orders')">📋 طلبات العملاء</button>
+            <button class="tab-btn" onclick="switchTab(event, 'files')">📁 ملفات وأصول الشركة</button>
+            <button class="tab-btn" onclick="switchTab(event, 'contact')">📞 كيفية التواصل</button>
+        </div>
+
+        <!-- 1. تبويب أقسام الشركة -->
+        <div id="departments" class="tab-content active">
+            <h2 class="section-title">الأقسام الحادية عشر التشغيلية واللوجستية</h2>
+            <div class="cards-grid">
+                <!-- قسم النقل واللوجستيات -->
+                <div class="card transport-card">
+                    <h3>🚚 قسم النقل واللوجستيات</h3>
+                    <p>إدارة الأسطول، الشحن الدولي بين تركيا وأمريكا، وتوصيل الطلبات.</p>
+                    <button class="action-btn" onclick="showDept('transport')">عرض تفاصيل القسم</button>
+                </div>
+                <!-- قسم الذكاء الاصطناعي -->
+                <div class="card ai-card">
+                    <h3>🤖 قسم الذكاء الاصطناعي (AI)</h3>
+                    <p>تطوير النماذج الذكية، أتمتة العمليات، وتوليد المحتوى بالذكاء الاصطناعي.</p>
+                    <button class="action-btn" onclick="showDept('ai')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>🌐 قسم برمجة الويب</h3>
+                    <p>تطوير بوابات الشركات وأنظمة الـ Hotspot السحابية.</p>
+                    <button class="action-btn" onclick="showDept('web')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>🎮 قسم برمجة الألعاب</h3>
+                    <p>تصميم بيئات المحاكاة والتفاعل ثلاثي الأبعاد.</p>
+                    <button class="action-btn" onclick="showDept('game')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>🎨 قسم الستريتور والفوتوشوب</h3>
+                    <p>تصميم الهويات البصرية والواجهات الرقمية UI/UX.</p>
+                    <button class="action-btn" onclick="showDept('design')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>🔒 قسم أمن المعلومات</h3>
+                    <p>حماية البنية التحتية، عزل الشبكات (VLANs) وتأمين SSH.</p>
+                    <button class="action-btn" onclick="showDept('security')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>🎬 قسم الأفلام والمونتاج</h3>
+                    <p>إنتاج الفيديو، المونتاج السينمائي والمؤثرات البصرية.</p>
+                    <button class="action-btn" onclick="showDept('film')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>📸 قسم التصوير</h3>
+                    <p>التوثيق البصري التجاري وإدارة الأرشيف الرقمي.</p>
+                    <button class="action-btn" onclick="showDept('photo')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>🏛️ إدارة الشركة</h3>
+                    <p>التخطيط الإستراتيجي، إدارة العمليات والمتابعة العليا.</p>
+                    <button class="action-btn" onclick="showDept('mgmt')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>💰 الإدارة المالية</h3>
+                    <p>تتبع المعاملات، الحسابات والتحويلات الرقمية المصرفية.</p>
+                    <button class="action-btn" onclick="showDept('finance')">عرض تفاصيل القسم</button>
+                </div>
+                <div class="card">
+                    <h3>📊 قسم العرض والطلب</h3>
+                    <p>إدارة الموارد، دراسة السوق وتلبية متطلبات العملاء.</p>
+                    <button class="action-btn" onclick="showDept('supply')">عرض تفاصيل القسم</button>
+                </div>
+            </div>
+
+            <!-- صندوق عرض التفاصيل -->
+            <div id="deptInfoPanel" class="info-panel"></div>
+        </div>
+
+        <!-- 2. تبويب طلبات العملاء -->
+        <div id="orders" class="tab-content">
+            <h2 class="section-title">متابعة طلبات العملاء الحية</h2>
+            <p style="color: #8b949e; margin-bottom: 20px;">تُعرض هنا جميع الطلبات الأساسية بالإضافة إلى أي طلب جديد يُرسله العملاء عبر بوابة العملاء فوراً:</p>
+            
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>رقم الطلب</th>
+                        <th>اسم العميل</th>
+                        <th>تفاصيل المشروع / الخدمة</th>
+                        <th>القسم المختص</th>
+                        <th>حالة الطلب والإجراء</th>
+                        <th>بيانات الدفع المالي</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <tr>
+                        <td>#MC-899</td>
+                        <td>شركة الشحن السريع الدولية</td>
+                        <td>إدارة خطوط الشحن والربط اللوجستي بين تركيا وأمريكا حول الدول الاجنبية</td>
+                        <td>🚚 قسم النقل واللوجستيات</td>
+                        <td><span class="status-tag status-done">مكتمل ✅</span></td>
+                    </tr>
+                    <tr>
+                        <td>#MC-900</td>
+                        <td>شركة الذكاء المتقدم</td>
+                        <td>دمج نموذج ذكاء اصطناعي وتحليل بيانات</td>
+                        <td>🤖 قسم الذكاء الاصطناعي (AI)</td>
+                        <td><span class="status-tag status-done">مكتمل ✅</span></td>
+                    </tr>
+                    <tr>
+                        <td>#MC-901</td>
+                        <td>شركة الأفق التقني</td>
+                        <td>تطوير بوابة ويب متكاملة</td>
+                        <td>🌐 قسم برمجة الويب</td>
+                        <td><span class="status-tag status-done">مكتمل ✅</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. تبويب ملفات وأصول الشركة -->
+        <div id="files" class="tab-content">
+            <h2 class="section-title">مستودع الملفات والأصول الرقمية</h2>
+            <div class="cards-grid">
+                <!-- زر تحميل ملف الإكسل الرسمي للشركة -->
+                <div class="card" style="border-color: #2ea043; background: linear-gradient(145deg, #161b22 0%, #112217 100%);">
+                    <h3 style="color: #3fb950;">📊 تقرير بيانات الشركة الشامل (Excel)</h3>
+                    <p>ملف الإكسل الرسمي المتضمن لجميع أقسام الشركة الـ 11، حجم العمليات والمهام المنقولة، وملف التأسيس والمقرات.</p>
+                    <a href="MasterArt_Code_Full_Data.xlsx" download class="action-btn" style="display: block; text-align: center; text-decoration: none; background-color: #238636; color: #fff; margin-top: 10px;">تحميل ملف الإكسل الرسمي 📥</a>
+                </div>
+
+                <div class="card">
+                    <h3>📁 وثائق النقل ومسارات الشحن</h3>
+                    <p>جداول حركة المركبات، عقود الشحن الدولي بين تركيا وأمريكا، ومصاريف الوقود.</p>
+                    <button class="action-btn" onclick="alert('جاري تحميل وثائق النقل واللوجستيات...')">تحميل الملفات</button>
+                </div>
+                <div class="card">
+                    <h3>📁 نماذج وسكربتات الذكاء الاصطناعي</h3>
+                    <p>نماذج بايثون للتعلم الآلي وأكواد معالجة البيانات.</p>
+                    <button class="action-btn" onclick="alert('جاري تحميل مكتبة نماذج الذكاء الاصطناعي...')">تحميل الملفات</button>
+                </div>
+                <div class="card">
+                    <h3>📁 وثائق البنية التحتية والشبكات</h3>
+                    <p>ملفات محاكاة Cisco Packet Tracer وهندسة الـ VLANs.</p>
+                    <button class="action-btn" onclick="alert('جاري تحميل ملف البنية التحتية الشبكية...')">تحميل الملفات</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. تبويب كيفية التواصل -->
+        <div id="contact" class="tab-content">
+            <h2 class="section-title">بيانات وقنوات التواصل الرسمية</h2>
+            <div class="contact-box">
+                <p>🏢 <strong>المقر الرئيسي:</strong> الجمهورية التركية - أنقرة (Ankara, Turkey)</p>
+                <p>🇺🇸 <strong>الفرع الدولي:</strong> الولايات المتحدة الأمريكية - هيوستن (Houston, Texas, USA)</p>
+                <p>✉️ <strong>البريد الإلكتروني الرسمي:</strong> contact@masterartcode.com</p>
+                <p>📞 <strong>رقم الهاتف الدولي:</strong> +90 056 736 2547 (تركيا) | +1 056 736 2547 (أمريكا)</p>
+                <p>🌐 <strong>البوابة السحابية الداخلية:</strong> شبكة محلية ,دولية مؤمنة عبر بروتوكول VLANs و SSH</p>
+                <p>👑 <strong>الإدارة العليا والمؤسس:</strong> بكر  خضورة (CEO & Founder)</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة © 2023 - MasterArt & Code | المقر الرئيسي: أنقرة، تركيا - فرع هيوستن، أمريكا
+    </footer>
+
+    <script>
+        function switchTab(event, tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function loadClientOrders() {
+            const savedOrders = JSON.parse(localStorage.getItem("masterArtOrders") || "[]");
+            const tableBody = document.getElementById("ordersTableBody");
+
+            savedOrders.forEach((order, index) => {
+                const row = document.createElement("tr");
+                const isDone = order.status.includes("مكتمل");
+                const statusClass = isDone ? "status-done" : "status-new";
+                
+                row.innerHTML = `
+                    <td><strong>${order.id}</strong></td>
+                    <td>${order.client}</td>
+                    <td>${order.details}</td>
+                    <td>${order.dept}</td>
+                    <td>
+                        <span class="status-tag ${statusClass}" id="status-${index}">${order.status}</span>
+                        ${!isDone ? `<button class="complete-btn" onclick="markOrderDone(${index})">إنهاء الطلب ✔</button>` : ""}
+                    </td>
+                `;
+                tableBody.insertBefore(row, tableBody.firstChild);
+            });
+        }
+
+        function markOrderDone(index) {
+            const savedOrders = JSON.parse(localStorage.getItem("masterArtOrders") || "[]");
+            if (savedOrders[index]) {
+                savedOrders[index].status = "مكتمل ✅";
+                localStorage.setItem("masterArtOrders", JSON.stringify(savedOrders));
+                location.reload();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadClientOrders);
+
+        // تفاصيل الأقسام الحادية عشر شاملة مهام قسم النقل
+        const deptData = {
+            transport: `<strong>🚚 قسم النقل واللوجستيات:</strong> مسؤول عن إدارة العمليات اللوجستية ونقل الأصول بكفاءة عالية وتتضمن مهامه:<br>
+                - 🚗 إدارة سيارات ومركبات الشركة وتتبع حركة الأسطول.<br>
+                - 🚚 نقل المعدات، الأجهزة، والمواد بحرية وأمان تام.<br>
+                - ✈️ تنظيم السفر والتنقل الرسمي بين المقر الرئيسي في تركيا والفرع الدولي في أمريكا.<br>
+                - 📦 توصيل الطلبات والشحنات للعملاء في المواعيد المحددة.<br>
+                - 🗺️ تنظيم مسارات النقل والمواصلات لتقليل زمن التوصيل.<br>
+                - 🛠️ متابعة صيانة المركبات، الفحص الدوري، ومصاريف الوقود.`,
+            ai: "<strong>🤖 قسم الذكاء الاصطناعي (AI):</strong> القسم المسؤول عن دمج خوارزميات التعلم الآلي (Machine Learning)، معالجة اللغات الطبيعية (NLP)، وأتمتة العمليات البرمجية المتقدمة لخدمة مشاريع الشركة.",
+            web: "<strong>🌐 قسم برمجة الويب:</strong> مسؤول عن بناء واجهات المنظومة، صفحات تسجيل الدخول، وتكامل الخدمات السحابية باستخدام أحدث تقنيات HTML5, CSS3 و Python.",
+            game: "<strong>🎮 قسم برمجة الألعاب:</strong> يركز على تطوير محركات التفاعل وتجربة المستخدم الديناميكية عبر محركات الألعاب ولغات البرمجة المتقدمة.",
+            design: "<strong>🎨 قسم الستريتور والفوتوشوب:</strong> المعمل البصري لإنتاج الهوية الفنية، الأصول الرقمية، وتصاميم واجهات المستخدم بدقة واحترافية عالية.",
+            security: "<strong>🔒 قسم أمن المعلومات:</strong> خط الدفاع الأول للشركة؛ يدير عزل الشبكات عبر Cisco VLANs، تفعيل بروتوكولات الحماية، ومراقبة الثغرات.",
+            film: "<strong>🎬 قسم الأفلام والمونتاج:</strong> يختص بصناعة المحتوى المرئي الترويجي، المونتاج المتقدم، وتطبيق المؤثرات البصرية الجذابة.",
+            photo: "<strong>📸 قسم التصوير:</strong> توثيق المشاريع والأحداث التجارية بجودة احترافية عالية ورفد قسم الوسائط بالأصول الخام.",
+            mgmt: "<strong>🏛️ إدارة الشركة:</strong> الإدارة العليا والتوجيه الإستراتيجي بقيادة المؤسس (بكر فواز خضورة) لضمان تكامل العمل بين كافة الفروع (تركيا وأمريكا).",
+            finance: "<strong>💰 الإدارة المالية:</strong> تنظيم التدفقات النقدية، متابعة الحسابات، وإدارة التحويلات المالية الرقمية عبر الأنظمة المصرفية.",
+            supply: "<strong>📊 قسم العرض والطلب:</strong> موازنة الاحتياجات التقنية والسوقية، دراسة المتطلبات، وضمان سرعة الاستجابة لطلبات العملاء."
+        };
+
+        function showDept(deptKey) {
+            const panel = document.getElementById("deptInfoPanel");
+            panel.style.display = "block";
+            panel.innerHTML = deptData[deptKey];
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+
+</body>
+</html>

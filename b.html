@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Giriş Yap - MasterArt & Code</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d1117; color: #e6edf3; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 6%;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+        }
+        .logo { font-size: 1.4rem; font-weight: bold; color: #38bdf8; direction: ltr; }
+        
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .clients-link {
+            background-color: #21262d;
+            color: #38bdf8;
+            border: 1px solid #38bdf8;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .clients-link:hover { background-color: #38bdf8; color: #0d1117; }
+
+        /* قائمة اللغات */
+        .lang-select {
+            background-color: #21262d;
+            color: #38bdf8;
+            border: 1px solid #38bdf8;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+        }
+        .lang-select option { background-color: #161b22; color: #e6edf3; }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            padding: 40px 6%;
+            flex: 1;
+            gap: 40px;
+        }
+
+        .login-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 35px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        .login-card h2 { margin-bottom: 25px; color: #38bdf8; font-size: 1.5rem; text-align: center; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #c9d1d9; font-size: 0.95rem; font-weight: 600; }
+        input {
+            width: 100%;
+            padding: 12px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        input:focus { border-color: #38bdf8; box-shadow: 0 0 5px rgba(56, 189, 248, 0.3); }
+
+        .login-btn {
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+        }
+        .login-btn:hover { opacity: 0.9; }
+
+        .welcome-text {
+            max-width: 600px;
+            text-align: left;
+        }
+        [dir="rtl"] .welcome-text { text-align: right; }
+
+        .welcome-text h1 { font-size: 2.3rem; margin-bottom: 15px; line-height: 1.3; color: #e6edf3; }
+        .welcome-text h1 span { color: #38bdf8; }
+        .welcome-text p { color: #8b949e; font-size: 1.05rem; line-height: 1.6; }
+
+        footer { text-align: center; padding: 20px; color: #8b949e; font-size: 0.85rem; border-top: 1px solid #21262d; background-color: #161b22; }
+    </style>
+</head>
+<body>
+
+    <!-- الشريط العلوي -->
+    <header>
+        <div class="logo">🎨 MasterArt & Code</div>
+        <div class="header-actions">
+            <a href="clients.html" class="clients-link" id="navClients">🌐 Müşteri Portalı</a>
+            
+            <!-- زر تبديل اللغات (التركية أساسية افتراضياً) -->
+            <select id="langSwitch" class="lang-select" onchange="changeLanguage(this.value)">
+                <option value="tr" selected>Türkçe 🇹🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+                <option value="en">English 🇺🇸</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-container">
+        <!-- نموذج تسجيل الدخول -->
+        <div class="login-card">
+            <h2 id="loginTitle">Personel Girişi</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username" id="labelUser">Kullanıcı Adı</label>
+                    <input type="text" id="username" required placeholder="baker">
+                </div>
+                <div class="form-group">
+                    <label for="password" id="labelPass">Şifre</label>
+                    <input type="password" id="password" required placeholder="••••••">
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">Sisteme Giriş Yap 🚀</button>
+            </form>
+        </div>
+
+        <!-- النصوص التعريفية بجانب النموذج -->
+        <div class="welcome-text">
+            <h1 id="heroTitle"><span>MasterArt & Code</span> Dijital Yönetim Sistemine Hoş Geldiniz</h1>
+            <p id="heroDesc">
+                Merkezi yönetim paneline doğrudan geçiş yapmak, departmanları yönetmek, müşteri taleplerini takip etmek ve güvenli ağ altyapısını denetlemek için giriş yapın.
+            </p>
+        </div>
+    </div>
+
+    <!-- التذييل -->
+    <footer id="footerText">
+        Tüm Hakları Saklıdır © 2026 - MasterArt & Code | Ankara (Türkiye) • Houston (USA)
+    </footer>
+
+    <!-- قاموس اللغات والدوال البرمجية -->
+    <script>
+        const translations = {
+            tr: {
+                title: "Giriş Yap - MasterArt & Code",
+                navClients: "🌐 Müşteri Portalı",
+                loginTitle: "Personel Girişi",
+                labelUser: "Kullanıcı Adı",
+                labelPass: "Şifre",
+                loginBtn: "Sisteme Giriş Yap 🚀",
+                heroTitle: '<span>MasterArt & Code</span> Dijital Yönetim Sistemine Hoş Geldiniz',
+                heroDesc: 'Merkezi yönetim paneline doğrudan geçiş yapmak, departmanları yönetmek, müşteri taleplerini takip etmek ve güvenli ağ altyapısını denetlemek için giriş yapın.',
+                footerText: 'Tüm Hakları Saklıdır © 2026 - MasterArt & Code | Ankara (Türkiye) • Houston (ABD)'
+            },
+            ar: {
+                title: "تسجيل الدخول - MasterArt & Code",
+                navClients: "🌐 بوابة العملاء",
+                loginTitle: "تسجيل دخول الموظفين",
+                labelUser: "اسم المستخدم",
+                labelPass: "كلمة المرور",
+                loginBtn: "دخول إلى النظام 🚀",
+                heroTitle: 'منظومة الإدارة الرقمية لشركة <span>MasterArt & Code</span>',
+                heroDesc: 'سجل الدخول للانتقال المباشر إلى لوحة التحكم المركزية لإدارة الأقسام، متابعة طلبات العملاء، ومراقبة الشبكة المؤمنة.',
+                footerText: 'جميع الحقوق محفوظة © 2026 - MasterArt & Code | أنقرة (تركيا) • هيوستن (أمريكا)'
+            },
+            en: {
+                title: "Login - MasterArt & Code",
+                navClients: "🌐 Client Portal",
+                loginTitle: "Staff Login",
+                labelUser: "Username",
+                labelPass: "Password",
+                loginBtn: "Login to System 🚀",
+                heroTitle: 'Welcome to <span>MasterArt & Code</span> Digital Management System',
+                heroDesc: 'Log in to directly access the central dashboard to manage departments, track client orders, and monitor the secure network infrastructure.',
+                footerText: 'All Rights Reserved © 2026 - MasterArt & Code | Ankara (Turkey) • Houston (USA)'
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang];
+            document.getElementById("htmlRoot").setAttribute("lang", lang);
+            document.getElementById("htmlRoot").setAttribute("dir", lang === 'ar' ? 'rtl' : 'ltr');
+
+            document.getElementById("pageTitle").innerText = t.title;
+            document.getElementById("navClients").innerText = t.navClients;
+            document.getElementById("loginTitle").innerText = t.loginTitle;
+            document.getElementById("labelUser").innerText = t.labelUser;
+            document.getElementById("labelPass").innerText = t.labelPass;
+            document.getElementById("loginBtn").innerText = t.loginBtn;
+            document.getElementById("heroTitle").innerHTML = t.heroTitle;
+            document.getElementById("heroDesc").innerText = t.heroDesc;
+            document.getElementById("footerText").innerText = t.footerText;
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            // الانتقال المباشر لوحة التحكم بعد تسجيل الدخول
+            window.location.href = "dashboard.html";
+        }
+    </script>
+</body>
+</html>
